@@ -67,7 +67,8 @@ class Command:
 
             def build_image(image_):
                 frontend_command = [
-                    'docker-compose',
+                    'docker',
+                    'compose',
                     '-f',
                     'docker-compose.frontend.yml',
                     '-f',
@@ -105,7 +106,8 @@ class Command:
     def compose_frontend(cls, args):
         config = Config()
         dict_ = config.get_dict()
-        command = ['docker-compose',
+        command = ['docker',
+                   'compose',
                    '-f', 'docker-compose.frontend.yml',
                    '-f', 'docker-compose.frontend.override.yml',
                    '-p', config.get_prefix('frontend')]
@@ -120,7 +122,8 @@ class Command:
         dict_ = config.get_dict()
         backend_role = dict_['backend_server_role']
         command = [
-            'docker-compose',
+            'docker',
+            'compose',
             '-f',
             f'docker-compose.backend.{backend_role}.yml',
             '-f',
@@ -227,7 +230,8 @@ class Command:
         if config.primary_backend or config.secondary_backend:
             backend_role = dict_['backend_server_role']
             backend_command = [
-                'docker-compose',
+                'docker',
+                'compose',
                 '-f',
                 f'docker-compose.backend.{backend_role}.yml',
                 '-f',
@@ -242,7 +246,8 @@ class Command:
 
         if config.frontend:
             frontend_command = [
-                'docker-compose',
+                'docker',
+                'compose',
                 '-f', 'docker-compose.frontend.yml',
                 '-f', 'docker-compose.frontend.override.yml',
                 '-p', config.get_prefix('frontend'),
@@ -272,7 +277,8 @@ class Command:
         dict_ = config.get_dict()
 
         nginx_stop_command = [
-            'docker-compose',
+            'docker',
+            'compose',
             '-f', 'docker-compose.frontend.yml',
             '-f', 'docker-compose.frontend.override.yml',
             '-p', config.get_prefix('frontend'),
@@ -288,7 +294,8 @@ class Command:
         dict_ = config.get_dict()
 
         frontend_command = [
-            'docker-compose',
+            'docker',
+            'compose',
             '-f', 'docker-compose.maintenance.yml',
             '-f', 'docker-compose.maintenance.override.yml',
             '-p', config.get_prefix('maintenance'),
@@ -346,7 +353,8 @@ class Command:
             backend_role = dict_['backend_server_role']
 
             backend_command = [
-                'docker-compose',
+                'docker',
+                'compose',
                 '-f', f'docker-compose.backend.{backend_role}.yml',
                 '-f', f'docker-compose.backend.{backend_role}.override.yml',
                 '-p', config.get_prefix('backend'),
@@ -365,7 +373,8 @@ class Command:
             Upgrading.migrate_single_to_two_databases(config)
 
             frontend_command = [
-                'docker-compose',
+                'docker',
+                'compose',
                 '-f', 'docker-compose.frontend.yml',
                 '-f', 'docker-compose.frontend.override.yml',
                 '-p', config.get_prefix('frontend'),
@@ -389,7 +398,7 @@ class Command:
                     # container to be started first
                     config.init_letsencrypt()
                 else:
-                    proxy_command = ['docker-compose', 'up', '-d']
+                    proxy_command = ['docker','compose', 'up', '-d']
                     CLI.run_command(proxy_command,
                                     config.get_letsencrypt_repo_path())
 
@@ -424,25 +433,26 @@ class Command:
         if not config.multi_servers or config.frontend:
             # Shut down maintenance container in case it's up&running
             maintenance_down_command = [
-                'docker-compose',
+                'docker',
+                'compose',
                 '-f', 'docker-compose.maintenance.yml',
                 '-f', 'docker-compose.maintenance.override.yml',
                 '-p', config.get_prefix('maintenance'),
                 'down']
 
-            CLI.run_command(maintenance_down_command,
-                            dict_['kobodocker_path'])
+            CLI.run_command(maintenance_down_command, dict_['kobodocker_path'])
 
             # Stop reverse proxy if user uses it.
             if config.use_letsencrypt:
-                proxy_command = ['docker-compose', 'down']
+                proxy_command = ['docker','compose', 'down']
                 CLI.run_command(
                     proxy_command, config.get_letsencrypt_repo_path()
                 )
 
             # Shut down front-end containers
             frontend_command = [
-                'docker-compose',
+                'docker',
+                'compose',
                 '-f', 'docker-compose.frontend.yml',
                 '-f', 'docker-compose.frontend.override.yml',
                 '-p', config.get_prefix('frontend'),
@@ -455,7 +465,8 @@ class Command:
             backend_role = dict_['backend_server_role']
 
             backend_command = [
-                'docker-compose',
+                'docker',
+                'compose',
                 '-f', f'docker-compose.backend.{backend_role}.yml',
                 '-f', f'docker-compose.backend.{backend_role}.override.yml',
                 '-p', config.get_prefix('backend'),
@@ -479,7 +490,8 @@ class Command:
         if not config.multi_servers or config.frontend:
             # Shut down maintenance container in case it's up&running
             maintenance_down_command = [
-                'docker-compose',
+                'docker',
+                'compose',
                 '-f', 'docker-compose.maintenance.yml',
                 '-f', 'docker-compose.maintenance.override.yml',
                 '-p', config.get_prefix('maintenance'),
@@ -490,7 +502,8 @@ class Command:
 
             # Create and start NGINX container
             frontend_command = [
-                'docker-compose',
+                'docker',
+                'compose',
                 '-f', 'docker-compose.frontend.yml',
                 '-f', 'docker-compose.frontend.override.yml',
                 '-p', config.get_prefix('frontend'),

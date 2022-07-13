@@ -273,7 +273,8 @@ class Config(metaclass=Singleton):
         return self.__dict
 
     def get_service_names(self):
-        service_list_command = ['docker-compose',
+        service_list_command = ['docker',
+                                'compose',
                                 '-f', 'docker-compose.frontend.yml',
                                 '-f', 'docker-compose.frontend.override.yml',
                                 'config', '--services']

@@ -28,7 +28,8 @@ class Upgrading:
             set_env = 'DATABASE_URL="${KPI_DATABASE_URL}"'
             return ['bash', '-c', f'{set_env} {command}']
 
-        kpi_run_command = ['docker-compose',
+        kpi_run_command = ['docker',
+                           'compose',
                            '-f', 'docker-compose.frontend.yml',
                            '-f', 'docker-compose.frontend.override.yml',
                            '-p', config.get_prefix('frontend'),
@@ -97,8 +98,8 @@ class Upgrading:
                 sys.exit(0)
 
             backend_command = [
-                'docker-compose',
-                '-f',
+                'docker',
+                'compose',
                 f'docker-compose.backend.{backend_role}.yml',
                 '-f',
                 f'docker-compose.backend.{backend_role}.override.yml',
