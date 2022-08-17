@@ -16,6 +16,10 @@
     "support": {
         "email": "${DEFAULT_FROM_EMAIL}"
     },
+    "logo": {
+        "href": "",
+        "source": "https://kobo.ine.gob.gt/INELOGO-BLUE.png"
+    },
     "widgets": [
         "note",
         "select-desktop",
