@@ -162,6 +162,7 @@ class Template:
             'AWS_ACCESS_KEY_ID': dict_['aws_access_key'],
             'AWS_SECRET_ACCESS_KEY': dict_['aws_secret_key'],
             'AWS_BUCKET_NAME': dict_['aws_bucket_name'],
+            'AWS_S3_REGION_NAME': dict_['aws_s3_region_name'],
             'GOOGLE_UA': dict_['google_ua'],
             'GOOGLE_API_KEY': dict_['google_api_key'],
             'INTERNAL_DOMAIN_NAME': dict_['internal_domain_name'],
@@ -208,7 +209,13 @@ class Template:
             'NGINX_PUBLIC_PORT': dict_['exposed_nginx_docker_port'],
             'NGINX_EXPOSED_PORT': nginx_port,
             'UWSGI_WORKERS_MAX': dict_['uwsgi_workers_max'],
-            'UWSGI_WORKERS_START': dict_['uwsgi_workers_start'],
+            # Deactivate cheaper algorithm if defaults are 1 worker to start and
+            # 2 maximum.
+            'UWSGI_WORKERS_START': (
+                ''
+                if dict_['uwsgi_workers_start'] == '1' and dict_['uwsgi_workers_max'] == '2'
+                else dict_['uwsgi_workers_start']
+            ),
             'UWSGI_MAX_REQUESTS': dict_['uwsgi_max_requests'],
             'UWSGI_SOFT_LIMIT': int(
                 dict_['uwsgi_soft_limit']) * 1024 * 1024,
